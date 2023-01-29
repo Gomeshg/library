@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import httpStatus from "http-status";
-import { User, Session } from "../protocols/types";
-import userService from "../service/user-service";
+import { User, Session } from "../protocols/types.js";
+import userService from "../service/user-service.js";
 
 export async function signUp(req: Request, res: Response) {
   const newUser = req.body as User;
