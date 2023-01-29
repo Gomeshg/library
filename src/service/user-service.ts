@@ -7,6 +7,7 @@ import {
 import { User, Session } from "../protocols/types.js";
 import jwt from "jsonwebtoken";
 import { privateKey, fourHours } from "../utils/utils.js";
+import bcrypt from "bcrypt";
 
 export async function signUp(newUser: User): Promise<User> {
   const userAlreadyExists = await userRepository.findUser(newUser.email);
@@ -14,6 +15,9 @@ export async function signUp(newUser: User): Promise<User> {
     throw conflictError();
   }
 
+  const hashedPassword = await bcrypt.hash(newUser.password, 12);
+
+  newUser = { ...newUser, password: hashedPassword };
   const user = await userRepository.createUser(newUser);
   return user;
 }
@@ -24,7 +28,11 @@ export async function signIn(user: User): Promise<Session> {
     throw unauthorizedError();
   }
 
-  if (user.password !== userExists.password) {
+  const passwordIsNotValid = bcrypt.compareSync(
+    user.password,
+    userExists.password
+  );
+  if (!passwordIsNotValid) {
     throw unauthorizedError();
   }
   const newSession: Session = {
