@@ -12,5 +12,5 @@ export function unauthorizedError(): ApplicationError {
 }
 
 export function conflictError(): ApplicationError {
-  return { name: "ConflictError", message: "This name already exists" };
+  return { name: "ConflictError", message: `This user already exists` };
 }

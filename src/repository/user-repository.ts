@@ -7,21 +7,18 @@ async function createUser(newUser: User): Promise<User> {
   });
 }
 
-async function findUser(id: number): Promise<User> {
+async function findUser(email: string): Promise<User> {
   return prisma.user.findUnique({
     where: {
-      id,
+      email,
     },
   });
 }
 
-async function createSession(
-  userId: number,
-  newSession: Session
-): Promise<Session> {
+async function createSession(newSession: Session): Promise<Session> {
   return prisma.session.upsert({
     where: {
-      userId,
+      userId: newSession.userId,
     },
     create: newSession,
     update: {
