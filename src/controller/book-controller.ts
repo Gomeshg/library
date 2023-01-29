@@ -33,10 +33,11 @@ export async function getAllBook(req: Request, res: Response) {
 }
 
 export async function postBook(req: Request, res: Response) {
+  const userId: number = res.locals.userId;
   const newBook = req.body as Book;
 
   try {
-    await bookService.createBook(newBook);
+    await bookService.createBook(userId, newBook);
     return res.sendStatus(httpStatus.CREATED);
   } catch (error) {
     if (error.name === "ConflictError") {

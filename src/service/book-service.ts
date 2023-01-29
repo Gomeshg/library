@@ -57,7 +57,7 @@ async function howManyBooksWereDone(
   return { booksDone: count };
 }
 
-async function createBook(newBook: Book): Promise<void> {
+async function createBook(userId: number, newBook: Book): Promise<void> {
   const nameAlreadyExists = (await bookRepository.readBookByName(
     newBook.name
   )) as Book;
@@ -65,6 +65,7 @@ async function createBook(newBook: Book): Promise<void> {
     throw conflictError();
   }
 
+  newBook = { ...newBook, userId: userId };
   await bookRepository.createBook(newBook);
 }
 

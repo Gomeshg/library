@@ -7,8 +7,10 @@ export async function signUp(req: Request, res: Response) {
   const newUser = req.body as User;
 
   try {
-    const user = await userService.signUp(newUser);
-    return res.status(httpStatus.CREATED).send(user);
+    await userService.signUp(newUser);
+    return res
+      .status(httpStatus.CREATED)
+      .send({ feedback: "Successful Registration!" });
   } catch (error) {
     if (error.name === "ConflictError") {
       return res.status(httpStatus.CONFLICT).send(error.message);
@@ -22,7 +24,9 @@ export async function signIn(req: Request, res: Response) {
 
   try {
     const session = await userService.signIn(user);
-    return res.status(httpStatus.OK).send(session);
+    return res
+      .status(httpStatus.OK)
+      .send({ token: session.token, feedback: "Successful login!" });
   } catch (error) {
     if (error.name === "UnauthorizedError") {
       return res.status(httpStatus.UNAUTHORIZED).send(error.message);

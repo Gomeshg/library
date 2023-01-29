@@ -14,12 +14,17 @@ import authentication from "../middleware/authentication-middleware.js";
 
 const bookRouter = Router();
 
-bookRouter.all("/*", authentication);
-bookRouter.get("/book/all", getAllBook);
-bookRouter.get("/book/done", howManyBooksWereDone);
-bookRouter.get("/book/:id", validateParams, getBook);
-bookRouter.post("/book", validateBook, postBook);
-bookRouter.put("/book/:id", validateParams, validateUpdatedBook, updateBook);
-bookRouter.delete("/book/:id", validateParams, deleteBook);
+bookRouter.get("/book/all", authentication, getAllBook);
+bookRouter.get("/book/done", authentication, howManyBooksWereDone);
+bookRouter.get("/book/:id", authentication, validateParams, getBook);
+bookRouter.post("/book", authentication, validateBook, postBook);
+bookRouter.put(
+  "/book/:id",
+  authentication,
+  validateParams,
+  validateUpdatedBook,
+  updateBook
+);
+bookRouter.delete("/book/:id", authentication, validateParams, deleteBook);
 
 export default bookRouter;
