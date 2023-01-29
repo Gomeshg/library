@@ -11,6 +11,6 @@ export default async function validateParams(
     return res.sendStatus(httpStatus.BAD_REQUEST);
   }
 
-  res.locals.id = id;
+  res.locals.bookId = id;
   next();
 }

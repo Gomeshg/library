@@ -17,8 +17,12 @@ async function readBookByName(bookName: string): Promise<Book> {
   });
 }
 
-async function readAllBook(): Promise<Book[]> {
-  return prisma.book.findMany();
+async function readAllBook(userId: number): Promise<Book[]> {
+  return prisma.book.findMany({
+    where: {
+      userId,
+    },
+  });
 }
 
 async function createBook(newBook: Book): Promise<Book> {
@@ -47,10 +51,11 @@ async function deleteBook(bookID: number): Promise<Book> {
   });
 }
 
-async function howManyBooksWereDone(): Promise<number> {
+async function howManyBooksWereDone(userId: number): Promise<number> {
   return prisma.book.count({
     where: {
       status: "Done",
+      userId,
     },
   });
 }

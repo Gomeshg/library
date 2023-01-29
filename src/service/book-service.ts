@@ -1,12 +1,21 @@
 import bookRepository from "../repository/book-repository.js";
-import { notFoundError, conflictError } from "../errors/errors.js";
-import { Book, UpdatedBook } from "../protocols/types.js";
+import userRepository from "../repository/user-repository.js";
+import {
+  notFoundError,
+  conflictError,
+  unauthorizedError,
+} from "../errors/errors.js";
+import { Book, UpdatedBook, User } from "../protocols/types.js";
 
-async function readBook(bookID: number): Promise<Book> {
+async function readBook(userId: number, bookID: number): Promise<Book> {
   const book = (await bookRepository.readBook(bookID)) as Book;
 
   if (!book) {
     throw notFoundError("book");
+  }
+
+  if (userId !== book.userId) {
+    throw unauthorizedError();
   }
 
   const finalBook: Book = {
@@ -20,8 +29,8 @@ async function readBook(bookID: number): Promise<Book> {
   return finalBook;
 }
 
-async function readAllBook(): Promise<Book[]> {
-  const allBooks = (await bookRepository.readAllBook()) as Book[];
+async function readAllBook(userId: number): Promise<Book[]> {
+  const allBooks = (await bookRepository.readAllBook(userId)) as Book[];
 
   const finalAllBooks: Book[] = [];
   for (let i = 0; i < allBooks.length; i++) {
@@ -40,8 +49,10 @@ async function readAllBook(): Promise<Book[]> {
   return finalAllBooks;
 }
 
-async function howManyBooksWereDone(): Promise<{ booksDone: number }> {
-  const count: number = await bookRepository.howManyBooksWereDone();
+async function howManyBooksWereDone(
+  userId: number
+): Promise<{ booksDone: number }> {
+  const count: number = await bookRepository.howManyBooksWereDone(userId);
 
   return { booksDone: count };
 }
@@ -58,12 +69,17 @@ async function createBook(newBook: Book): Promise<void> {
 }
 
 async function updateBook(
-  bookID: number,
+  userId: number,
+  bookId: number,
   updatedBook: UpdatedBook
 ): Promise<void> {
-  const book = (await bookRepository.readBook(bookID)) as Book;
+  const book = (await bookRepository.readBook(bookId)) as Book;
   if (!book) {
     throw notFoundError("book");
+  }
+
+  if (userId !== book.userId) {
+    throw unauthorizedError();
   }
 
   if (updatedBook.name) {
@@ -76,15 +92,19 @@ async function updateBook(
     }
   }
 
-  await bookRepository.updateBook(bookID, updatedBook);
+  await bookRepository.updateBook(bookId, updatedBook);
 }
-async function deleteBook(bookID: number): Promise<void> {
-  const book = (await bookRepository.readBook(bookID)) as Book;
+async function deleteBook(userId: number, bookId: number): Promise<void> {
+  const book = (await bookRepository.readBook(bookId)) as Book;
   if (!book) {
     throw notFoundError("book");
   }
 
-  await bookRepository.deleteBook(bookID);
+  if (userId !== book.userId) {
+    throw unauthorizedError();
+  }
+
+  await bookRepository.deleteBook(bookId);
 }
 
 const bookService = {
