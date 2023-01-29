@@ -4,6 +4,8 @@
 
 Se trata de uma aplicação com o objetivo de arquivar suas leituras e seu progresse nelas, ou seja, fazer a gestão do seu hábito de ler!
 
+<hr></hr>
+
 ### Tecnologias utilizadas:
 
 - Node.js/Express
@@ -13,6 +15,32 @@ Se trata de uma aplicação com o objetivo de arquivar suas leituras e seu progr
 
 ### Documentação:
 
+<hr></hr>
+
+#### POST: /sign-up
+
+Body: {
+email: "emailexemplo@gmail.com",
+password: "senhamuitoforte"
+}
+
+> É preciso utilizar um email válido e uma senha com no mínimo 6 caracteres
+
+#### POST: /sign-in
+
+Body: {
+email: "emailexemplo@gmail.com",
+password: "senhamuitoforte"
+}
+
+retorno: {
+token: "c03ba670-205c-40b6-8da9-e00ea03b6a66",
+feedback: "Successful login!"
+}
+
+> Utilize o token para acessas as rotas privadas de book
+
+<hr></hr>
 #### POST: /book
 
 Body: {
@@ -83,9 +111,12 @@ status: "InProgress"
 
 > Passando o id corrretamente, o book selecionado será deletado.
 
+<hr></hr>
+
 ### Utilização do sistema:
 
 1. Clonar projeto
 2. Instalar dependências
 3. Usar o npm start para iniciar o servidor
-4. Consumir as API's pela plataforma da sua preferência
+4. Se cadastrar e logar na aplicação
+5. Consumir as API's pela plataforma da sua preferência
