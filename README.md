@@ -41,6 +41,7 @@ feedback: "Successful login!"
 > Utilize o token para acessas as rotas privadas de book
 
 <hr></hr>
+
 #### POST: /book
 
 Body: {
