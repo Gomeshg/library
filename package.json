@@ -4,9 +4,13 @@
   "description": "",
   "main": "main.js",
   "type": "module",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/main.ts"
+    "start": "nodemon src/main.ts",
+    "prisma:seed": "npx prisma db seed"
   },
   "keywords": [],
   "author": "",
