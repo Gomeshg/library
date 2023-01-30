@@ -117,6 +117,14 @@ status: "InProgress"
 
 1. Clonar projeto
 2. Instalar dependências
-3. Usar o npm start para iniciar o servidor
-4. Se cadastrar e logar na aplicação
-5. Consumir as API's pela plataforma da sua preferência
+3. Usar o script 'npm run prisma:seed' para preencher o banco de dados \*
+4. Usar o npm start para iniciar o servidor
+5. logar na aplicação com o usuário fornecido
+6. Consumir as API's pela plataforma da sua preferência
+
+\* Ao usar o 'npm run prisma:seed', este usuário será criado:
+
+{
+email: "teste@gmail.com",
+password: "123456"
+}
